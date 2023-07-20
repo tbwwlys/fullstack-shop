@@ -42,7 +42,6 @@ router.post('/goodsFind/:title', async (ctx, next) => {
 
 router.post('/productDetail/:typeId/:id', async(ctx, next) => {
     let { id:idx, typeId: typeidx } = ctx.params
-    // console.log(idx, typeidx, '////')
     idx = parseInt(idx)
     typeidx = parseInt(typeidx);
     console.log(idx, typeidx);
@@ -69,9 +68,7 @@ router.get('/goodsList', async (ctx, next) => {
 router.post('/cartAdd', async (ctx, next) => {
     let { id, username, name, price, max, min, shop, guarantee, imgUrl, num} = ctx.request.body;
     try {
-        // console.log('---------------------------')
         let findres = await userService.cartFind(id);
-        console.log(findres, '------------------222---------')
         if (findres.length) {
             await userService.numAdd(id).then(res => {
                 if (res.affectedRows !== 0) {
@@ -119,7 +116,6 @@ router.post('/cartList', async (ctx, next) => {
     const { username } = ctx.request.body
     try {
       const result = await userService.cartList(username)
-      // console.log(result);
       if (result.length) {
         ctx.body = {
           code: '80000',
@@ -142,4 +138,40 @@ router.post('/cartList', async (ctx, next) => {
     }
 })
   
+router.post('/cartModify', async (ctx) => {
+    const { num, id } = ctx.request.body;
+    const res = await userService.cartModify(num, id)
+    if (res.affectedRows !== 0) {
+        ctx.body = {
+            code: '80000',
+            data: 'success',
+            msg: '修改成功'
+        }
+    } else {
+        ctx.body = {
+            code: '800004',
+            data: 'error',
+            msg: '修改失败'
+        }
+    }
+})
+
+router.post('/cartDelete', async (ctx) => {
+    const { id } = ctx.request.body;
+    const res = await userService.cartDelete(id)
+    if (res.affectedRows !== 0) {
+        ctx.body = {
+            code: '80000',
+            data: 'success',
+            msg: '删除成功！'
+        }
+    } else {
+        ctx.body = {
+            code: '800004',
+            data: 'error',
+            msg: '删除失败！'
+        }
+    }
+})
+
 module.exports = router

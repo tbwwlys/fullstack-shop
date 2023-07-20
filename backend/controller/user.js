@@ -48,7 +48,7 @@ exports.handleLogin = async (ctx) => {
     const { username, password } = ctx.request.body
     try {
     const result = await userService.userLogin(username, password)
-    console.log(result);
+    // console.log(result);
     if (result.length) {
       let data = {
         id: result[0].id,

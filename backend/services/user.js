@@ -25,16 +25,12 @@ const pool = mysql.createPool({
 const allService = {
     query: function (sql, values) {
         return new Promise((resolve, reject) => {
-            // console.log('未连接数据库', config)
             pool.getConnection((err, connection) => { //连接数据库
                 if (err) { //连接失败
                     reject(err);
                 }
                 else {  //连接成功
-                    // console.log(sql, values, '///////////////////')
                     connection.query(sql, values, (err, rows) => { //执行sql语句
-                        // console.log('连接成功');
-                        console.log(err, rows, '//////////////////////')
                         if (err) {//sql语句执行失败
                             reject(err);
                         }
@@ -71,13 +67,13 @@ const cartFind = (id) => {
     let _sql = `select * from cart where id="${id}";`
     return allService.query(_sql);
 }
-// 
+// 添加商品
 const cartAdd = (values) => {
     let _sql = 'insert into cart set id=?,username=?,name=?,price=?,max=?,min=?,shop=?,address=?,guarantee=?,imgUrl=?,num=min;'
     return allService.query(_sql, values);
 }
 
-
+// 更新购物车
 const numAdd = (id) => {
     let _sql = `update cart set num=num+1 where id="${id}";`
     return allService.query(_sql)
@@ -87,6 +83,15 @@ const cartList = (username) => {
     let _sql = `select * from cart where username="${username}";`
     return allService.query(_sql)  
 }
+const  cartModify = (num, id) => {
+    let _sql = `update cart set num="${num}" where id=${id};`
+    return allService.query(_sql);
+}
+
+const cartDelete = (id) => {
+    let _sql = `delete from cart where id=${id};`
+    return allService.query(_sql);
+}
 
 module.exports = {
     findUser,
@@ -95,5 +100,7 @@ module.exports = {
     cartFind,
     cartAdd,
     numAdd,
-    cartList
+    cartList,
+    cartModify,
+    cartDelete
 }

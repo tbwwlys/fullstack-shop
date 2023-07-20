@@ -74,6 +74,7 @@
             略微改改字段双向绑定样式就好
         - script copilot 自动完成 vue/ axios / submit / router 业务
         - 开发者新角色 给copilot 代码助理打辅助 
+    - 
 - 项目做了哪些优化
     - 按需加载vant组件库，减少打包体积
     - tree-shaking 不用的代码不打包
@@ -108,6 +109,7 @@
         - geolocation 地理定位 美团外卖
         - 摄像头和麦克风的支持 getUserMedia 语音识别
 
+
 - vant 组件库的使用小结
     - van-swipe/van-swipe-item  轮播图
     - van-tabbar/van-tabbar-item 底栏 
@@ -130,6 +132,12 @@
         - echarts.js
     -  购物车
         - 结合pinia，将购物车数据存储到数据库，实现购物数量徽章，详情页添加到购物车，购物车列表，购物车数量，以及清空购物车完整功能
+        - 购物车状态管理复杂
+            - cartData 列表数据
+            - result 选中的id 数组
+            - totalPrice 由cartData + result 决定 computed
+            - 全选通过watch result
+        - 购物车数据在后端维护 增删改
 
 - node 的实战与考点
     - MVC 路由对象
